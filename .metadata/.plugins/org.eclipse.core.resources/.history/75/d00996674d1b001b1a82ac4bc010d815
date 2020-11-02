@@ -1,0 +1,76 @@
+package com.gl.documentdata.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.gl.documentdata.service.DocumentDataService;
+
+@RestController
+@RequestMapping("/Docinfo")
+public class DocumentDataController {
+
+	private static final Logger logger = LogManager.getLogger(DocumentDataController.class);
+
+	@Autowired
+	private DocumentDataService documentDataService;
+
+	@PostMapping(value = "/info")
+	public void addMovie(@RequestBody DocManagement info){
+		documentDataService.addDoc(info);
+	}
+
+	@GetMapping(value = "/info/{docName}")
+	public DocManagement getDoc(@PathVariable("docName") String docName){
+		DocManagement doc = new DocManagement();
+		try{
+			doc = docManagementService.getDoc(docName);
+			System.out.println("  in controller  "+doc.getName());
+		}catch (Exception e){
+			logger.error(e);
+			System.out.println(e);
+		}
+		return doc;
+	}
+
+	@DeleteMapping(value = "/info/{docName}")
+	public void deleteDoc(@PathVariable("docName") String docName){
+		try{
+			docManagementService.deleteDoc(docName);
+		}catch (Exception e){
+			logger.error(e);
+		}
+	}
+
+	@PutMapping(value = "/info")
+	public void updateMovie(@RequestBody DocManagement doc){
+		try{
+			docManagementService.updateDoc(doc);
+		}catch (Exception e){
+			logger.error(e);
+		}
+	}
+
+	@GetMapping(value = "/list-movies")
+	public List<DocManagement> getAllMovies(){
+		List<DocManagement> list = new ArrayList<>();
+		try{
+			list = docManagementService.getAllDocs();
+		}catch (Exception e){
+			logger.error(e);
+		}
+		return list;
+	}
+
+}

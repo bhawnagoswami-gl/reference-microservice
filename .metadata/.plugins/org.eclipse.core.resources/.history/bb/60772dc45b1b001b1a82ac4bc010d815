@@ -1,0 +1,5 @@
+package com.gl.documentmanagement.service;
+
+public class DocManagementService {
+
+}

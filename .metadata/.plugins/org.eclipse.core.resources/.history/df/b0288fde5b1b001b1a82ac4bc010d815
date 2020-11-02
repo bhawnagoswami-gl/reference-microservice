@@ -1,0 +1,43 @@
+package com.gl.documentmanagement.service;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Service;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+@Service
+@ConfigurationProperties(prefix="endpoint")
+public class DocManagementService {
+
+	private static final Logger logger = LogManager.getLogger(DocManagementService.class);
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Value("${endpoint.movieUrl}")
+	private String movieInfoUrl;
+
+	@Value("${endpoint.ratingsUrl}")
+	private String ratingsInfoUrl;
+
+	@Autowired
+	public MovieCatalogService() {
+	}
+
+	public Ratings getRatings(String movieId)
+	{
+		logger.info("getting ratings for movieID "+movieId);
+		Ratings ratings = restTemplate.getForObject(ratingsInfoUrl + movieId, Ratings.class);
+		return ratings;
+	}
+
+	public MovieInfo getMovieInfo(String movieId)
+	{
+		logger.info("getting description for movieID "+movieId);
+		MovieInfo movieInfo = restTemplate.getForObject(movieInfoUrl + movieId, MovieInfo.class);
+		System.out.println(movieInfoUrl + movieId);
+		return movieInfo;
+	}
+	
+
+}

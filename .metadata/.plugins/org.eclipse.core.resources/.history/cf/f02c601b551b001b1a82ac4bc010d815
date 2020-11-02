@@ -1,0 +1,5 @@
+package com.gl.metadatainfo.service;
+
+public class MetadataService {
+
+}

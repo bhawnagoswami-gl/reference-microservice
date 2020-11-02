@@ -1,0 +1,49 @@
+package com.gl.documentmanagement.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.gl.documentmanagement.model.DocumentData;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+@Service
+@ConfigurationProperties(prefix="endpoint")
+public class DocManagementService {
+
+	private static final Logger logger = LogManager.getLogger(DocManagementService.class);
+
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Value("${endpoint.movieUrl}")
+	private String movieInfoUrl;
+
+	@Value("${endpoint.ratingsUrl}")
+	private String docInfoUrl;
+
+	@Autowired
+	public DocManagementService() {
+	}
+
+	public DocumentData getDocInfo(String docName)
+	{
+		logger.info("getting doc info for docName "+ docName);
+		DocumentData documentData = restTemplate.getForObject(docInfoUrl + movieId, Ratings.class);
+		return ratings;
+	}
+
+	public MovieInfo getMovieInfo(String movieId)
+	{
+		logger.info("getting description for movieID "+movieId);
+		MovieInfo movieInfo = restTemplate.getForObject(movieInfoUrl + movieId, MovieInfo.class);
+		System.out.println(movieInfoUrl + movieId);
+		return movieInfo;
+	}
+	
+
+}

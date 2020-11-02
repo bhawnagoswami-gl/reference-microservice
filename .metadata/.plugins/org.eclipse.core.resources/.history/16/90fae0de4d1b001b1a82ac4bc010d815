@@ -1,0 +1,5 @@
+package com.gl.documentdata.dao;
+
+public class DocumentDataDAO {
+
+}

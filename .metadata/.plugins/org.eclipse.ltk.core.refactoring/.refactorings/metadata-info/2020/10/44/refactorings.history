@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;MetadataInfo.java&apos; to &apos;document-management/src/main/java/com.gl.documentmanagement.model&apos;&#x0D;&#x0A;- Original project: &apos;metadata-info&apos;&#x0D;&#x0A;- Destination element: &apos;document-management/src/main/java/com.gl.documentmanagement.model&apos;&#x0D;&#x0A;- Original element: &apos;com.gl.metadatainfo.model.MetadataInfo.java&apos;" description="Copy compilation unit" destination="=document-management/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.gl.documentmanagement.model" element1="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.gl.metadatainfo.model{MetadataInfo.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1604136374367" units="1" version="1.0"/>
+</session>

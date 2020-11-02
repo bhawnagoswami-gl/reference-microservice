@@ -1,0 +1,40 @@
+package com.gl.documentdata.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.gl.documentdata.dao.DocumentDataDAO;
+import com.gl.documentdata.model.DocumentData;
+
+@Service
+public class DocumentDataService {
+
+	 @Autowired
+	 DocumentDataDAO documentDataDAO;
+
+	  public DocumentData getMovie(String docName) {
+		  DocumentData document = documentDataDAO.getDocument(docName);
+	 //   System.out.println("get bhawna service " +movie.getName());
+	    return document;
+	  }
+
+	  public List<DocumentData> getAllMovies() {
+	    List<DocumentData> list = documentDataDAO.getAllDocs();
+	    return list;
+	  }
+
+	  public void addMovie(MovieInfo movie) {
+	     movieDAO.addMovie(movie);
+	  }
+
+	  public void updateMovie(MovieInfo movie) {
+	    movieDAO.updateMovie(movie);
+	  }
+
+	  public void deleteMovie(String name) {
+	    movieDAO.deleteMovie(name);
+	  }
+
+}

@@ -1,0 +1,8 @@
+package com.gl.metadatainfo.configuration;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@Configuration
+public class MetadataConfiguration {
+
+}

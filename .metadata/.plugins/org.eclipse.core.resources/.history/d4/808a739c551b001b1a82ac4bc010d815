@@ -1,0 +1,41 @@
+package com.gl.metadatainfo.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.gl.metadatainfo.dao.MetadataDAO;
+import com.gl.metadatainfo.model.MetadataInfo;
+
+@Service
+public class MetadataService {
+
+	 @Autowired
+	 MetadataDAO metadataDAO;
+
+	  public MetadataInfo getDocument(String docId) {
+		  MetadataInfo metadataInfo = metadataDAO.getMetadataInfo(docId);
+	 //   System.out.println("get bhawna service " +movie.getName());
+	    return metadataInfo;
+	  }
+
+	  public List<MetadataInfo> getAllDocuments() {
+	    List<MetadataInfo> list = metadataDAO.getAllMetadataInfos();
+	    return list;
+	  }
+
+	  public void addDocument(DocumentData documentData) {
+		  documentDataDAO.addDocument(documentData);
+	  }
+
+	  public void updateDocument(DocumentData documentData) {
+		  documentDataDAO.updateDocument(documentData);
+	  }
+
+	  public void deleteDocument(String docName) {
+		  documentDataDAO.deleteDocument(docName);
+	  }
+
+
+}

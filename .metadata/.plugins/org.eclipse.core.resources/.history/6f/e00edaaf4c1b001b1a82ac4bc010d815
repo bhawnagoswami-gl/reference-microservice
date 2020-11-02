@@ -1,0 +1,5 @@
+package com.gl.documentdata.configuration;
+
+public class DocumentDataConfiguration {
+
+}

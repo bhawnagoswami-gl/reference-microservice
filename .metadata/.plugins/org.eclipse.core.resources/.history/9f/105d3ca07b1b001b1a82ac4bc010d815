@@ -1,0 +1,59 @@
+package com.gl.documentdata.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Table(name = "documentData")
+public class DocumentData {
+
+	@Column(name = "docid")
+	@Getter
+	@Setter
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private long docId;
+	
+	@Column(name = "docName")
+	@Getter
+	@Setter
+	private String docName;
+	
+	@Column(name = "docLocation")
+	@Getter
+	@Setter
+	private String docLocation;
+
+	public DocumentData() {
+	}
+
+	public DocumentData(String docName, String docLocation) {
+		this.docName = docName;
+		this.docLocation = docLocation;
+	}
+
+	public String getDocName() {
+		return docName;
+	}
+
+	public void setDocName(String docName) {
+		this.docName = docName;
+	}
+
+	public String getDocLocation() {
+		return docLocation;
+	}
+
+	public void setDocLocation(String docLocation) {
+		this.docLocation = docLocation;
+	}
+
+
+}

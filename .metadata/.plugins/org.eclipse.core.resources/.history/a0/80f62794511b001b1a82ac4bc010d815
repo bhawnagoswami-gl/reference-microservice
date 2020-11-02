@@ -1,0 +1,5 @@
+package com.gl.documentdata.model;
+
+public class DocumentData {
+
+}

@@ -1,0 +1,15 @@
+package com.gl.documentdata;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
+@SpringBootApplication
+@EnableEurekaClient
+public class DocumentDataApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DocumentDataApplication.class, args);
+	}
+
+}

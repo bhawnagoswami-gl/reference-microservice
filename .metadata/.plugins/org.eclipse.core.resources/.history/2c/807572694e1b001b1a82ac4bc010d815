@@ -1,0 +1,124 @@
+package com.gl.documentdata.dao;
+
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Repository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+@Repository
+@EnableJpaRepositories
+public class DocumentDataDAO {
+
+	private static final Logger logger = LogManager.getLogger(DocumentDataDAO.class);
+
+	  private List<DocumentData> movieList = new ArrayList<>();
+	  
+	  protected SessionFactory sessionFactory;
+	  
+	  @Autowired
+	  public MovieDAO(SessionFactory sessionFactory)
+	  {
+		  this.sessionFactory = sessionFactory;
+	  }
+	  
+	  public void exit() {
+	    sessionFactory.close();
+	  }
+	  
+	  public void closeFactory() {
+		    if (sessionFactory != null) {
+		        try {
+		            sessionFactory.close();
+		        } catch (HibernateException ignored) {
+		        	logger.error("Couldn't close SessionFactory", ignored);
+		        }
+		    }
+	  }
+
+	  public List<MovieInfo> getAllMovies() {
+	    Session session = sessionFactory.openSession();
+	    List<MovieInfo> list = new ArrayList<>();
+	    try {
+	    	list = session.createQuery("from MovieInfo").getResultList();
+	    }
+	    catch (Exception e) {
+	        logger.error(e);
+	      }
+	      finally {
+	          if (session != null) {
+	              session.close();
+	          }
+	      }
+	    return list;
+	  }
+
+	  public MovieInfo getMovie(String name) {
+	    MovieInfo movie = new MovieInfo();
+	    Session session = sessionFactory.openSession();
+	    try {
+	      movie = session.get(MovieInfo.class, name);
+		  System.out.println("in dao   "+movie.getName());
+	      logger.info(movie);
+	    } catch (Exception e) {
+	      logger.error(e);
+	    }
+	    finally {
+	        if (session != null) {
+	            session.close();
+	        }
+	    }
+	    return movie;
+	  }
+
+	  public void addMovie(MovieInfo movie) {
+	    Session session = sessionFactory.openSession();
+	    try {
+	      session.beginTransaction();
+	      String id = (String) session.save(movie);
+	      System.out.print("id is "+id);
+	      session.getTransaction().commit();
+	    } catch (Exception e) {
+	      logger.error(e);
+	    }
+	    finally {
+	        if (session != null) {
+	            session.close();
+	        }
+	    }
+	  }
+
+	  public void updateMovie(MovieInfo movie) {
+	    Session session = sessionFactory.openSession();
+	    try {
+	      session.beginTransaction();
+	      session.update(movie);
+	      session.getTransaction().commit();
+	    } catch (Exception e) {
+	      logger.error(e);
+	    }
+	    finally {
+	        if (session != null) {
+	            session.close();
+	        }
+	    }
+	  }
+
+	  public void deleteMovie(String name) {
+	    Session session = sessionFactory.openSession();
+	    try {
+	      session.beginTransaction();
+	      session.delete(getMovie(name));
+	      session.getTransaction().commit();
+	    } catch (Exception e) {
+	      logger.error(e);
+	    }
+	    finally {
+	        if (session != null) {
+	            session.close();
+	        }
+	    }
+	  }
+
+
+	  
+}
