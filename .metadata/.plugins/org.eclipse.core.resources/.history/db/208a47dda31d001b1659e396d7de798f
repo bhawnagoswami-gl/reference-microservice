@@ -20,60 +20,70 @@ import org.hibernate.criterion.Restrictions;
 @EnableJpaRepositories
 public class DocumentDataDAO {
 
-	 private static final Logger logger = LogManager.getLogger(DocumentDataDAO.class);
-	  @Autowired
-	  protected SessionFactory sessionFactory;
+	private static final Logger logger = LogManager.getLogger(DocumentDataDAO.class);
 
+	  private List<DocumentData> movieList = new ArrayList<>();
+	  
+	  protected SessionFactory sessionFactory;
+	  
+	  @Autowired
+	  public DocumentDataDAO(SessionFactory sessionFactory)
+	  {
+		  this.sessionFactory = sessionFactory;
+	  }
+	  
 	  public void exit() {
 	    sessionFactory.close();
 	  }
-
+	  
 	  public void closeFactory() {
-	    if (sessionFactory != null) {
-	      try {
-	        sessionFactory.close();
-	      } catch (HibernateException ignored) {
-	        logger.error("Couldn't close SessionFactory", ignored);
-	      }
-	    }
+		    if (sessionFactory != null) {
+		        try {
+		            sessionFactory.close();
+		        } catch (HibernateException ignored) {
+		        	logger.error("Couldn't close SessionFactory", ignored);
+		        }
+		    }
 	  }
 
 	  public List<DocumentData> getAllDocs() {
 	    Session session = sessionFactory.openSession();
-	    System.out.println(sessionFactory + "  " + session);
 	    List<DocumentData> list = new ArrayList<>();
 	    try {
-	      list = session.createQuery("from DocumentData").getResultList();
-	    } catch (Exception e) {
-	      logger.error(e);
-	    } finally {
-	      if (session != null) {
-	        session.close();
-	      }
+	    	list = session.createQuery("from DocumentData").getResultList();
 	    }
+	    catch (Exception e) {
+	        logger.error(e);
+	      }
+	      finally {
+	          if (session != null) {
+	              session.close();
+	          }
+	      }
 	    return list;
 	  }
 
 	  public DocumentData getDocument(String docName) {
-	    DocumentData docData = new DocumentData();
+		  DocumentData docData = new DocumentData();
 	    Session session = sessionFactory.openSession();
 	    try {
-	      //docData = session.get(DocumentData.class, docName);
-	      List list = session.createCriteria(DocumentData.class)
-	              .add(Restrictions.like("docName", "%" + docName + "%")).list();
-	      if (list != null) {
-	        System.out.println("getting the doc data in DAO");
-	        docData = (DocumentData) list.get(0);
-	        System.out.println("getting the doc data in DAO " + docData.getDocId());
-	      }
-	      System.out.println("in dao   " + docData.getDocName());
+	    	//docData = session.get(DocumentData.class, docName);
+	    	List list = session.createCriteria(DocumentData.class)
+	    		     .add( Restrictions.like("docName", "%"+docName+"%")).list();
+	    	if(list != null) {
+			System.out.println("getting the doc data in DAO");
+	    	docData = (DocumentData) list.get(0);	
+			System.out.println("getting the doc data in DAO "+docData.getDocName());
+	    	}
+		  System.out.println("in dao   "+docData.getDocName());
 	      logger.info(docData);
 	    } catch (Exception e) {
 	      logger.error(e);
-	    } finally {
-	      if (session != null) {
-	        session.close();
-	      }
+	    }
+	    finally {
+	        if (session != null) {
+	            session.close();
+	        }
 	    }
 	    return docData;
 	  }
@@ -83,14 +93,15 @@ public class DocumentDataDAO {
 	    try {
 	      session.beginTransaction();
 	      String id = (String) session.save(docData);
-	      System.out.print("id is " + id);
+	      System.out.print("id is "+id);
 	      session.getTransaction().commit();
 	    } catch (Exception e) {
 	      logger.error(e);
-	    } finally {
-	      if (session != null) {
-	        session.close();
-	      }
+	    }
+	    finally {
+	        if (session != null) {
+	            session.close();
+	        }
 	    }
 	  }
 
@@ -102,10 +113,11 @@ public class DocumentDataDAO {
 	      session.getTransaction().commit();
 	    } catch (Exception e) {
 	      logger.error(e);
-	    } finally {
-	      if (session != null) {
-	        session.close();
-	      }
+	    }
+	    finally {
+	        if (session != null) {
+	            session.close();
+	        }
 	    }
 	  }
 
@@ -117,10 +129,14 @@ public class DocumentDataDAO {
 	      session.getTransaction().commit();
 	    } catch (Exception e) {
 	      logger.error(e);
-	    } finally {
-	      if (session != null) {
-	        session.close();
-	      }
 	    }
-	  }	  
+	    finally {
+	        if (session != null) {
+	            session.close();
+	        }
+	    }
+	  }
+
+
+	  
 }

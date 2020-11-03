@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "DOCUMENTDATA")
+@Table(name = "documentData")
 public class DocumentData {
 
 	@Column(name = "docid")
