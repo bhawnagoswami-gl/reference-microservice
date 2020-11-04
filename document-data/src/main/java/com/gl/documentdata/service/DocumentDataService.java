@@ -15,9 +15,7 @@ public class DocumentDataService {
 	 DocumentDataDAO documentDataDAO;
 
 	  public DocumentData getDocument(String docName) {
-			System.out.println("  going in service of document-data service  ");
 		  DocumentData document = documentDataDAO.getDocument(docName);
-	    System.out.println("get bhawna service " +document.getDocName());
 	    return document;
 	  }
 

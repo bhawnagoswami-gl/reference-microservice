@@ -3,8 +3,8 @@ package com.gl.documentdata.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,26 +22,30 @@ import com.gl.documentdata.service.DocumentDataService;
 @RequestMapping("/docinfo")
 public class DocumentDataController {
 
-	private static final Logger logger = LogManager.getLogger(DocumentDataController.class);
+	private static final Logger logger = LoggerFactory.getLogger(DocumentDataController.class);
 
 	@Autowired
 	private DocumentDataService documentDataService;
 
 	@PostMapping(value = "/info")
 	public void addDocument(@RequestBody DocumentData documentData){
-		documentDataService.addDocument(documentData);
+		try{
+			logger.trace("add function called");
+			documentDataService.addDocument(documentData);
+		}catch (Exception e){
+			logger.error("error while adddocument call "+e);
+		}
+		
 	}
 
 	@GetMapping(value = "/info/{docName}")
 	public DocumentData getDocument(@PathVariable("docName") String docName){
 		DocumentData doc = new DocumentData();
 		try{
-			System.out.println("going in controller of document-data service  "+doc.getDocName());
+			logger.trace("get function called");
 			doc = documentDataService.getDocument(docName);
-			System.out.println("  in controller of document  "+doc.getDocName());
 		}catch (Exception e){
-			logger.error(e);
-			System.out.println(e);
+			logger.error("error while getdocument call "+e);
 		}
 		return doc;
 	}
@@ -49,18 +53,20 @@ public class DocumentDataController {
 	@DeleteMapping(value = "/info/{docName}")
 	public void deleteDocument(@PathVariable("docName") String docName){
 		try{
+			logger.trace("delete function called");
 			documentDataService.deleteDocument(docName);
 		}catch (Exception e){
-			logger.error(e);
+			logger.error("error while deletedocument call "+e);
 		}
 	}
 
 	@PutMapping(value = "/info")
 	public void updateDocument(@RequestBody DocumentData doc){
 		try{
+			logger.trace("update function called");
 			documentDataService.updateDocument(doc);
 		}catch (Exception e){
-			logger.error(e);
+			logger.error("error while updatedocument call "+e);
 		}
 	}
 
@@ -68,9 +74,10 @@ public class DocumentDataController {
 	public List<DocumentData> getAllDocuments(){
 		List<DocumentData> list = new ArrayList<>();
 		try{
+			logger.trace("getAll function called");
 			list = documentDataService.getAllDocuments();
 		}catch (Exception e){
-			logger.error(e);
+			logger.error("error while getAlldocument call "+e);
 		}
 		return list;
 	}
