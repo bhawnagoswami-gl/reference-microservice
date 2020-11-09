@@ -59,7 +59,7 @@ public class MetadataDAO {
 	    return list;
 	  }
 
-	  public MetadataInfo getMetadataInfo(long docId) {
+	  public MetadataInfo getMetadataInfo(String docId) {
 		  MetadataInfo metadata = new MetadataInfo() {
 		};
 	    Session session = sessionFactory.openSession();
@@ -111,7 +111,7 @@ public class MetadataDAO {
 	    }
 	  }
 
-	  public void deleteMetadatInfo(long docId) {
+	  public void deleteMetadatInfo(String docId) {
 	    Session session = sessionFactory.openSession();
 	    try {
 	      session.beginTransaction();

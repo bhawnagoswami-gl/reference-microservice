@@ -14,7 +14,7 @@ public class MetadataService {
 	 @Autowired
 	 MetadataDAO metadataDAO;
 
-	  public MetadataInfo getMetadataInfo(long docId) {
+	  public MetadataInfo getMetadataInfo(String docId) {
 		  MetadataInfo metadataInfo = metadataDAO.getMetadataInfo(docId);
 	      System.out.println("get bhawna service " +metadataInfo.getDocId());
 	      return metadataInfo;
@@ -33,7 +33,7 @@ public class MetadataService {
 		  metadataDAO.updateMetadatInfo(metadataInfo);
 	  }
 
-	  public void deleteMetadatInfo(long docId) {
+	  public void deleteMetadatInfo(String docId) {
 		  metadataDAO.deleteMetadatInfo(docId);
 	  }
 

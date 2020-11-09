@@ -1,4 +1,0 @@
-server.port = 8080
-spring.application.name=document-management-service
-endpoint.docinfoUrl=http://movie-info-service/movies/movie/
-endpoint.metainfoUrl=http://meta-info-service/metainfo/info/

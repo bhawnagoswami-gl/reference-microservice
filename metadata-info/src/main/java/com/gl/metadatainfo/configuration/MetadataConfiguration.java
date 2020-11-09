@@ -1,67 +1,53 @@
 package com.gl.metadatainfo.configuration;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import com.gl.metadatainfo.model.MetadataInfo;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.Metadata;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Environment;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import com.gl.metadatainfo.model.MetadataInfo;
+import java.util.Properties;
 
 @Configuration
 public class MetadataConfiguration {
+  @Value("${spring.datasource.url}")
+  public String url;
+  @Value("${spring.datasource.driver}")
+  public String driver;
+  @Value("${spring.datasource.username}")
+  public String username;
+  @Value("${spring.datasource.password}")
+  public String password;
+  @Value("${spring.jpa.database-platform}")
+  public String dialect;
 
-	private static StandardServiceRegistry registry;
-	private static SessionFactory sessionFactory;
+  @Bean
+  public SessionFactory getSessionFactory() {
+    SessionFactory factory = null;
+    if (factory == null) {
+      try {
+        Properties settings = new Properties();
+        settings.put("hibernate.connection.driver_class", driver);
+        settings.put("hibernate.connection.url", url);
+        settings.put("hibernate.connection.username", username);
+        settings.put("hibernate.connection.password",password);
+        settings.put("show_sql", true);
+        settings.put("dialect", dialect);
+        org.hibernate.cfg.Configuration cfg = new org.hibernate.cfg.Configuration();
+        cfg.setProperties(settings);
+        cfg.addAnnotatedClass(MetadataInfo.class);
+        factory = cfg.buildSessionFactory();
+      } catch (Exception e) {
+        System.out.println(e);
+      }
+    }
+    return factory;
+  }
+  @Bean
+  public RestTemplate getRestTemplate() {
+    return new RestTemplate();
+  }
 
-	@Bean
-	public SessionFactory getSessionFactory() {
-		if (sessionFactory == null) {
-			try {
-				Map<String, String> settings = new HashMap<>();
-				settings.put(Environment.DRIVER, "org.h2.Driver");
-				settings.put(Environment.URL, "jdbc:h2:mem:testdb");
-				settings.put(Environment.USER, "sa");
-				settings.put(Environment.SHOW_SQL, "true");
-				settings.put(Environment.DIALECT, "org.hibernate.dialect.H2Dialect");
-				settings.put(Environment.HBM2DDL_AUTO, "update");
-
-				registry = new StandardServiceRegistryBuilder().applySettings(settings).build();
-				MetadataSources sources = new MetadataSources(registry)
-						.addAnnotatedClass(MetadataInfo.class )
-						.addAnnotatedClassName( "com.gl.metadatainfo.model.MetadataInfo" );
-				Metadata metadata = sources.getMetadataBuilder().build();
-				sessionFactory = metadata.getSessionFactoryBuilder().build();
-			} catch (Exception e) {
-				e.printStackTrace();
-				if (registry != null) {
-					StandardServiceRegistryBuilder.destroy(registry);
-				}
-			}
-		}
-		return sessionFactory;
-	}
-
-	@Bean
-	public RestTemplate getRestTemplate() {
-		return new RestTemplate();
-	}
-
-	@Bean
-	public Properties hibernateProperties() { 
-		Properties hibernateProperties = new Properties();
-		hibernateProperties.setProperty("dialect","org.hibernate.dialect.H2Dialect");
-		hibernateProperties.setProperty("show_sql", "true");
-		hibernateProperties.setProperty("hbm2ddl.auto", "auto"); 
-		return hibernateProperties; 
-	}
 }

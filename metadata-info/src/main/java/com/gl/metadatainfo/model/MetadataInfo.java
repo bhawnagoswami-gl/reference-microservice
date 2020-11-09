@@ -9,14 +9,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Metadatainfo")
+@Table(name = "MetadataInfo")
 public class MetadataInfo {
 
 	@Column(name = "docid")
 	@Getter
 	@Id
 	@Setter
-	private long docId;
+	private String docId;
 
 	@Column(name = "doctype")
 	@Getter
@@ -31,17 +31,17 @@ public class MetadataInfo {
 	public MetadataInfo() {
 	}
 
-	public MetadataInfo(long docId, String docType, String docSize) {
+	public MetadataInfo(String docId, String docType, String docSize) {
 		this.docId = docId;
 		this.docType = docType;
 		this.docSize = docSize;
 	}
 
-	public long getDocId() {
+	public String getDocId() {
 		return docId;
 	}
 
-	public void setDocId(long docId) {
+	public void setDocId(String docId) {
 		this.docId = docId;
 	}
 
