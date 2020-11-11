@@ -24,7 +24,7 @@ public class DocManagementController {
 	@RequestMapping("/{docName}")
 	@HystrixCommand(fallbackMethod = "fallbackCatalog", commandKey = "doSomethingKey")
 	public Document getdocument(@PathVariable("docName") String docName) {
-		System.out.println("docnmae for search " + docName);
+		logger.trace("docname for searchc" + docName);
 		DocumentData documentData = null;
 		MetadataInfo metadataInfo = null;
 		Document document = null;
@@ -38,9 +38,9 @@ public class DocManagementController {
 		return document;
 	}
 
-	public Document fallbackCatalog(@PathVariable("userId") String userId) {
+	public Document fallbackCatalog(@PathVariable("docName") String docName) {
 
-		logger.info("calling fallback for document");
+		logger.info("calling fallback for document " +docName);
 		Document document = null;
 		try {
 			document = new Document(null, "", "", "No Document", "0");

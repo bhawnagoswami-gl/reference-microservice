@@ -8,7 +8,7 @@ LABEL maintainer="bhawna.goswami2@globallogic.com"
 #VOLUME /tmp
 
 # Make port 8080 available to the world outside this container
-EXPOSE 8080
+EXPOSE 80
 
 # The application's jar file
 ARG JAR_FILE=target/document-management-0.0.1-SNAPSHOT.jar
