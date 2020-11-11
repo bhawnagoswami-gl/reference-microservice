@@ -20,10 +20,10 @@ public class DocManagementService {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@Value("${metainfoUrl}")
+	@Value("${endpoint.metainfoUrl}")
 	private String metaInfoUrl;
 
-	@Value("${docinfoUrl}")
+	@Value("${endpoint.docinfoUrl}")
 	private String docInfoUrl;
 
 	@Autowired
