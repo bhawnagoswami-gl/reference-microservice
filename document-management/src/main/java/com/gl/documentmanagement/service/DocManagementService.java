@@ -32,15 +32,15 @@ public class DocManagementService {
 
 	public DocumentData getDocInfo(String docName)
 	{
-		logger.info("getting doc info for docName "+ docName + " url is "+docInfoUrl+docName );
-		DocumentData documentData = restTemplate.getForObject(docInfoUrl + docName, DocumentData.class);
+		logger.info("getting doc info for docName "+ docName + " url is " + docInfoUrl + "/docinfo/info/" + docName );
+		DocumentData documentData = restTemplate.getForObject(docInfoUrl + "/docinfo/info/" + docName, DocumentData.class);
 		return documentData;
 	}
 
 	public MetadataInfo getMetaInfo(String docId)
 	{
-		logger.info("getting meta info for docId "+ docId + " url is "+metaInfoUrl+docId );
-		MetadataInfo metadataInfo = restTemplate.getForObject(metaInfoUrl + docId, MetadataInfo.class);
+		logger.info("getting meta info for docId "+ docId + " url is " + metaInfoUrl + "/metainfo/info/" + docId );
+		MetadataInfo metadataInfo = restTemplate.getForObject(metaInfoUrl  + docId, MetadataInfo.class);
 		return metadataInfo;
 	}
 	
