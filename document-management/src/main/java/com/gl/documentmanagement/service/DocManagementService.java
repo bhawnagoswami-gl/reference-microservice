@@ -34,6 +34,7 @@ public class DocManagementService {
 	{
 		logger.info("getting doc info for docName "+ docName + " url is " + docInfoUrl + "/docinfo/info/" + docName );
 		DocumentData documentData = restTemplate.getForObject(docInfoUrl + "/docinfo/info/" + docName, DocumentData.class);
+		logger.info("got documentDatausing document data service ");
 		return documentData;
 	}
 
@@ -41,6 +42,7 @@ public class DocManagementService {
 	{
 		logger.info("getting meta info for docId "+ docId + " url is " + metaInfoUrl + "/metainfo/info/" + docId );
 		MetadataInfo metadataInfo = restTemplate.getForObject(metaInfoUrl + "/metainfo/info/"  + docId, MetadataInfo.class);
+		logger.info("got metadata using metadata info service ");
 		return metadataInfo;
 	}
 	
