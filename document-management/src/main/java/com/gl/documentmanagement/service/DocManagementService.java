@@ -40,7 +40,7 @@ public class DocManagementService {
 	public MetadataInfo getMetaInfo(String docId)
 	{
 		logger.info("getting meta info for docId "+ docId + " url is " + metaInfoUrl + "/metainfo/info/" + docId );
-		MetadataInfo metadataInfo = restTemplate.getForObject(metaInfoUrl  + docId, MetadataInfo.class);
+		MetadataInfo metadataInfo = restTemplate.getForObject(metaInfoUrl + "/metainfo/info/"  + docId, MetadataInfo.class);
 		return metadataInfo;
 	}
 	
