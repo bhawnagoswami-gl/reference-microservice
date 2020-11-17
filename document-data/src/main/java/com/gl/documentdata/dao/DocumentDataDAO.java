@@ -60,12 +60,7 @@ public class DocumentDataDAO {
 		DocumentData docData = new DocumentData();
 		Session session = sessionFactory.openSession();
 		try {
-			//docData = session.get(DocumentData.class, docName);
-			List list = session.createCriteria(DocumentData.class)
-					.add(Restrictions.like("docName", "%" + docName + "%")).list();
-			if (list != null) {
-				docData = (DocumentData) list.get(0);
-			}
+			docData = session.get(DocumentData.class, docName);
 			logger.trace("got document with name "+docName);
 		} catch (Exception e) {
 			logger.error("error while getDoc call "+e);

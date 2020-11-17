@@ -54,7 +54,7 @@ public class MetadataController {
 	public MetadataInfo getMetadataInfo(@PathVariable("docId") String docId){
 		MetadataInfo metaInfo = null;
 		metaInfo = metadataService.getMetadataInfo(docId);
-		logger.info("In MetadataController "+metaInfo.getDocId());
+		logger.info("In MetadataController "+ docId);
 		return metaInfo;
 	}
 

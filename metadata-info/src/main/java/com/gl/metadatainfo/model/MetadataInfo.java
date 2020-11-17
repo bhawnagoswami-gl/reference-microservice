@@ -36,29 +36,5 @@ public class MetadataInfo {
 		this.docType = docType;
 		this.docSize = docSize;
 	}
-
-	public String getDocId() {
-		return docId;
-	}
-
-	public void setDocId(String docId) {
-		this.docId = docId;
-	}
-
-	public String getDocType() {
-		return docType;
-	}
-
-	public void setDocType(String docType) {
-		this.docType = docType;
-	}
-
-	public String getDocSize() {
-		return docSize;
-	}
-
-	public void setDocSize(String docSize) {
-		this.docSize = docSize;
-	}
-
+	
 }

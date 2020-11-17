@@ -65,7 +65,6 @@ public class MetadataDAO {
 	    Session session = sessionFactory.openSession();
 	    try {
 	    	metadata = session.get(MetadataInfo.class, docId);
-		    System.out.println("in metainfo dao   "+metadata.getDocId());
 	      logger.info(metadata);
 	    } catch (Exception e) {
 	      logger.error(e);

@@ -17,12 +17,12 @@ public class DocumentData {
 	@Column(name = "docid")
 	@Getter
 	@Setter
-	@Id
 	private String docId;
 	
 	@Column(name = "docName")
 	@Getter
 	@Setter
+	@Id
 	private String docName;
 	
 	@Column(name = "docLocation")
@@ -33,33 +33,10 @@ public class DocumentData {
 	public DocumentData() {
 	}
 
-	public DocumentData(String docName, String docLocation) {
+	public DocumentData(String docId, String docName, String docLocation) {
+		this.docId = docId;
 		this.docName = docName;
 		this.docLocation = docLocation;
-	}
-
-	public String getDocName() {
-		return docName;
-	}
-
-	public void setDocName(String docName) {
-		this.docName = docName;
-	}
-
-	public String getDocLocation() {
-		return docLocation;
-	}
-
-	public void setDocLocation(String docLocation) {
-		this.docLocation = docLocation;
-	}
-
-	public String getDocId() {
-		return docId;
-	}
-	
-	public void setDocId(String docId) {
-		 this.docId =docId;
 	}
 
 }
