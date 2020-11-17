@@ -18,67 +18,61 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gl.documentdata.model.DocumentData;
 import com.gl.documentdata.service.DocumentDataService;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/docinfo")
 public class DocumentDataController {
 
 	private static final Logger logger = LoggerFactory.getLogger(DocumentDataController.class);
 
-	@Autowired
+
 	private DocumentDataService documentDataService;
+
+	public  DocumentDataController(DocumentDataService documentDataService) {
+		this.documentDataService = documentDataService;
+	}
 
 	@PostMapping(value = "/info")
 	public void addDocument(@RequestBody DocumentData documentData){
-		try{
-			logger.trace("add function called");
-			documentDataService.addDocument(documentData);
-		}catch (Exception e){
-			logger.error("error while adddocument call "+e);
-		}
-		
+		logger.info("add function called");
+		documentDataService.addDocument(documentData);
 	}
 
+	@ApiOperation(value = "get document data for a document",response = Iterable.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfully retrieved data"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+	})
 	@GetMapping(value = "/info/{docName}")
 	public DocumentData getDocument(@PathVariable("docName") String docName){
+		logger.info("get function called");
 		DocumentData doc = new DocumentData();
-		try{
-			logger.trace("get function called");
-			doc = documentDataService.getDocument(docName);
-		}catch (Exception e){
-			logger.error("error while getdocument call "+e);
-		}
+		doc = documentDataService.getDocument(docName);
 		return doc;
 	}
 
 	@DeleteMapping(value = "/info/{docName}")
 	public void deleteDocument(@PathVariable("docName") String docName){
-		try{
-			logger.trace("delete function called");
-			documentDataService.deleteDocument(docName);
-		}catch (Exception e){
-			logger.error("error while deletedocument call "+e);
-		}
+		logger.info("delete function called");
+		documentDataService.deleteDocument(docName);
 	}
 
 	@PutMapping(value = "/info")
 	public void updateDocument(@RequestBody DocumentData doc){
-		try{
-			logger.trace("update function called");
-			documentDataService.updateDocument(doc);
-		}catch (Exception e){
-			logger.error("error while updatedocument call "+e);
-		}
+		logger.info("update function called");
+		documentDataService.updateDocument(doc);
 	}
 
-	@GetMapping(value = "/list-movies")
+	@GetMapping(value = "/list-docs")
 	public List<DocumentData> getAllDocuments(){
 		List<DocumentData> list = new ArrayList<>();
-		try{
-			logger.trace("getAll function called");
-			list = documentDataService.getAllDocuments();
-		}catch (Exception e){
-			logger.error("error while getAlldocument call "+e);
-		}
+		logger.info("getAll function called");
+		list = documentDataService.getAllDocuments();
 		return list;
 	}
 

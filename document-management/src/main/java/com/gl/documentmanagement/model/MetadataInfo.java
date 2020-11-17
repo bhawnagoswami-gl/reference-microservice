@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class MetadataInfo {
+public class MetadataInfo {
 
 	private String docId;
 	private String docType;

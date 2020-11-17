@@ -11,41 +11,41 @@ import com.gl.documentmanagement.model.Document;
 import com.gl.documentmanagement.model.DocumentData;
 import com.gl.documentmanagement.model.MetadataInfo;
 import com.gl.documentmanagement.service.DocManagementService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/docs")
 public class DocManagementController {
 
 	private static final Logger logger = LoggerFactory.getLogger(DocManagementController.class);
-	@Autowired
 	private DocManagementService docManagementService;
-
+	
+	@Autowired
+	public DocManagementController(DocManagementService docManagementService)
+	{
+		this.docManagementService = docManagementService;
+	}
+	
+	@ApiOperation(value = "get document data with a document name",response = Iterable.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfully retrieved data"),
+			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+	})
 	@RequestMapping("/{docName}")
-	@HystrixCommand(fallbackMethod = "fallbackCatalog", commandKey = "doSomethingKey")
 	public Document getdocument(@PathVariable("docName") String docName) {
-		logger.trace("docname for searchc" + docName);
+		logger.info("docname for searchc" + docName);
 		DocumentData documentData = null;
 		MetadataInfo metadataInfo = null;
 		Document document = null;
-		try {
-			documentData = docManagementService.getDocInfo(docName);
-			metadataInfo = docManagementService.getMetaInfo(documentData.getDocId());
-			document = new Document(documentData.getDocId(), documentData.getDocName(), documentData.getDocLocation(), metadataInfo.getDocType(), metadataInfo.getDocSize());
-		} catch (Exception e) {
-			logger.error("error while getting document " + e);
-		}
+		documentData = docManagementService.getDocInfo(docName);
+		metadataInfo = docManagementService.getMetaInfo(documentData.getDocId());
+		document = new Document(documentData.getDocId(), documentData.getDocName(), documentData.getDocLocation(), metadataInfo.getDocType(), metadataInfo.getDocSize());
 		return document;
 	}
 
-	public Document fallbackCatalog(@PathVariable("docName") String docName) {
-
-		logger.info("calling fallback for document " +docName);
-		Document document = null;
-		try {
-			document = new Document(null, "", "", "No Document", "0");
-		} catch (Exception e) {
-			logger.error("error while fallback " + e);
-		}
-		return document;}
 }
