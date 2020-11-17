@@ -20,12 +20,12 @@ public class DocumentData {
 	@Id
 	private String docId;
 	
-	@Column(name = "docName")
+	@Column(name = "docname")
 	@Getter
 	@Setter
 	private String docName;
 	
-	@Column(name = "docLocation")
+	@Column(name = "doclocation")
 	@Getter
 	@Setter
 	private String docLocation;
