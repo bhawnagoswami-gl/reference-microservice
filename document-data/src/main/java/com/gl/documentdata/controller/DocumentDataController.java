@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +37,7 @@ public class DocumentDataController {
 	@PostMapping(value = "/info")
 	public void addDocument(@RequestBody DocumentData documentData){
 		logger.info("add function called");
-		documentDataService.addDocument(documentData);
+		documentDataService.addOrUpdateDocument(documentData);
 	}
 
 	@ApiOperation(value = "get document data for a document",response = Iterable.class)
@@ -65,7 +64,7 @@ public class DocumentDataController {
 	@PutMapping(value = "/info")
 	public void updateDocument(@RequestBody DocumentData doc){
 		logger.info("update function called");
-		documentDataService.updateDocument(doc);
+		documentDataService.addOrUpdateDocument(doc);
 	}
 
 	@GetMapping(value = "/list-docs")

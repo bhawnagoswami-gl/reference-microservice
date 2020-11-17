@@ -1,6 +1,7 @@
 package com.gl.documentdata.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,25 +16,24 @@ public class DocumentDataService {
 	 DocumentDataDAO documentDataDAO;
 
 	  public DocumentData getDocument(String docName) {
-		  DocumentData document = documentDataDAO.getDocument(docName);
-	    return document;
+
+	    return
+				documentDataDAO.findById(docName)
+						.orElse(new DocumentData());
 	  }
 
 	  public List<DocumentData> getAllDocuments() {
-	    List<DocumentData> list = documentDataDAO.getAllDocs();
-	    return list;
+	    return documentDataDAO.findAll();
 	  }
 
-	  public void addDocument(DocumentData documentData) {
-		  documentDataDAO.addDocument(documentData);
+	  public void addOrUpdateDocument(DocumentData documentData) {
+		  documentDataDAO.save(documentData);
 	  }
 
-	  public void updateDocument(DocumentData documentData) {
-		  documentDataDAO.updateDocument(documentData);
-	  }
+
 
 	  public void deleteDocument(String docName) {
-		  documentDataDAO.deleteDocument(docName);
+		  documentDataDAO.deleteById(docName);
 	  }
 
 }
