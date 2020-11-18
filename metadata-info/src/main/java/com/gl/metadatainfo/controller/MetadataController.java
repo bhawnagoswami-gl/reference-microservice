@@ -36,46 +36,64 @@ public class MetadataController {
 		this.metadataService = metadataService;
 	}
 
-	@PostMapping(value = "/info")
+	@ApiOperation(
+			value = "Post metadata info for a document",
+			response = MetadataInfo.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfully posted data"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+	})
+	@PostMapping()
 	public void addMetadataInfo(@RequestBody MetadataInfo metadataInfo)
 	{
-		logger.info("add function called");
 		metadataService.addMetadataInfo(metadataInfo);
 	}
 
-	@ApiOperation(value = "get metdata info about a document",response = Iterable.class)
+
+	@ApiOperation(value = "Get metdata info about a document",response = Iterable.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Successfully retrieved data"),
-			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
 	})
-	@GetMapping(value = "/info/{docId}")
+	@GetMapping(value = "/{docId}")
 	public MetadataInfo getMetadataInfo(@PathVariable("docId") String docId){
-		MetadataInfo metaInfo = null;
-		metaInfo = metadataService.getMetadataInfo(docId);
-		logger.info("In MetadataController "+ docId);
-		return metaInfo;
+		return metadataService.findMetadataInfo(docId);
 	}
-
-	@DeleteMapping(value = "/info/{docName}")
+	
+	
+	@ApiOperation(value = "Delete metdata info about a document",response = Iterable.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfully deleted data"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+	})
+	@DeleteMapping(value = "/{docId}")
 	public void deleteMetadatInfo(@PathVariable("docId") String docId){
-		logger.info("delete function called");
 		metadataService.deleteMetadatInfo(docId);
 	}
+	
 
-	@PutMapping(value = "/info")
+	@ApiOperation(value = "Update metdata info about a document",response = Iterable.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfully updated data"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+	})
+	@PutMapping
 	public void updateMetadatInfo(@RequestBody MetadataInfo metadataInfo){
 		logger.info("update function called");
 		metadataService.updateMetadatInfo(metadataInfo);
 	}
-
-	@GetMapping(value = "/list-metainfo")
+	
+	
+	@ApiOperation(
+			value = "Get Metainfo data for all documents",
+			response = MetadataInfo.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfully retrieved data"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+	})
+	@GetMapping(value = "/all")
 	public List<MetadataInfo> getAllMetadataInfos(){
-		List<MetadataInfo> list = new ArrayList<>();
-		logger.info("getAll function called");
-		list = metadataService.getAllMetadataInfos();
-		return list;
+		 return metadataService.getAllMetadataInfos();
 	}
 
 

@@ -2,6 +2,8 @@ package com.gl.documentdata.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,29 +13,49 @@ import com.gl.documentdata.model.DocumentData;
 @Service
 public class DocumentDataService {
 
-	 @Autowired
-	 DocumentDataDAO documentDataDAO;
+	private static final Logger logger = LoggerFactory.getLogger(DocumentDataService.class);
 
-	  public DocumentData getDocument(String docName) {
-		  DocumentData document = documentDataDAO.getDocument(docName);
-	    return document;
-	  }
+	private DocumentDataDAO documentDataDAO;
 
-	  public List<DocumentData> getAllDocuments() {
-	    List<DocumentData> list = documentDataDAO.getAllDocs();
-	    return list;
-	  }
+	@Autowired
+	public DocumentDataService(DocumentDataDAO documentDataDAO)
+	{
+		this.documentDataDAO =  documentDataDAO;
+	}
 
-	  public void addDocument(DocumentData documentData) {
-		  documentDataDAO.addDocument(documentData);
-	  }
+	public DocumentData findDocument(String docId) {
+		return
+				documentDataDAO
+				.findById(docId)
+				.orElse(DocumentData.EMPTY_DOCUMENT);
+	}
 
-	  public void updateDocument(DocumentData documentData) {
-		  documentDataDAO.updateDocument(documentData);
-	  }
+	public List<DocumentData> getAllDocuments() {
+		return
+				documentDataDAO
+				.findAll();
+	}
 
-	  public void deleteDocument(String docName) {
-		  documentDataDAO.deleteDocument(docName);
-	  }
+	public void updateDocument(DocumentData documentData) {
+		if (documentData.hasId()) {
+			addDocument(documentData);
+		} else {
+			throwDocumentNotExistException(documentData);
+		}
+	}
+	
+	public void addDocument(DocumentData documentData) {
+		DocumentData data = documentDataDAO.save(documentData);
+		logger.info("Document added/updated - {}", data);
+	}
+
+	public void deleteDocument(String docName) {
+		documentDataDAO.deleteById(docName);
+	}
+
+	private void throwDocumentNotExistException(DocumentData documentData){
+		logger.warn("Document {} doesn't exist and so can't be updated");
+		throw new RuntimeException("Document " + documentData + " doesn't exist and so can't be updated");
+	}
 
 }

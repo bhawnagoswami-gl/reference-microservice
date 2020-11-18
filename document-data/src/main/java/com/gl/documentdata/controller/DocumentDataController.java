@@ -28,52 +28,75 @@ public class DocumentDataController {
 
 	private static final Logger logger = LoggerFactory.getLogger(DocumentDataController.class);
 
-
 	private DocumentDataService documentDataService;
 
+	@Autowired
 	public  DocumentDataController(DocumentDataService documentDataService) {
 		this.documentDataService = documentDataService;
 	}
 
-	@PostMapping(value = "/info")
-	public void addDocument(@RequestBody DocumentData documentData){
-		logger.info("add function called");
-		documentDataService.addDocument(documentData);
-	}
-
-	@ApiOperation(value = "get document data for a document",response = Iterable.class)
+	@ApiOperation(
+			value = "Get document data for a document",
+			response = DocumentData.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Successfully retrieved data"),
-			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
 	})
-	@GetMapping(value = "/info/{docName}")
-	public DocumentData getDocument(@PathVariable("docName") String docName){
-		logger.info("get function called");
-		DocumentData doc = new DocumentData();
-		doc = documentDataService.getDocument(docName);
-		return doc;
+	@GetMapping(value = "/{docId}")
+	public DocumentData getDocument(@PathVariable("docId") String docId){
+		return
+				documentDataService
+						.findDocument(docId);
 	}
 
-	@DeleteMapping(value = "/info/{docName}")
-	public void deleteDocument(@PathVariable("docName") String docName){
-		logger.info("delete function called");
-		documentDataService.deleteDocument(docName);
+	@ApiOperation(
+			value = "Get document data for all documents",
+			response = DocumentData.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfully retrieved data"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+	})
+	@GetMapping(value = "/all")
+	public List<DocumentData> getAllDocuments(){
+		return
+				documentDataService
+						.getAllDocuments();
 	}
 
-	@PutMapping(value = "/info")
+	@ApiOperation(
+			value = "Update document data for a document",
+			response = DocumentData.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfully updated data"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+	})
+	@PutMapping
 	public void updateDocument(@RequestBody DocumentData doc){
-		logger.info("update function called");
 		documentDataService.updateDocument(doc);
 	}
 
-	@GetMapping(value = "/list-docs")
-	public List<DocumentData> getAllDocuments(){
-		List<DocumentData> list = new ArrayList<>();
-		logger.info("getAll function called");
-		list = documentDataService.getAllDocuments();
-		return list;
+	@ApiOperation(
+			value = "Add document data for a document",
+			response = DocumentData.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfully added data"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+	})
+	@PostMapping
+	public void addDocument(@RequestBody DocumentData documentData){
+		documentDataService.addDocument(documentData);
+	}
+
+	@ApiOperation(
+			value = "Delete data for a document",
+			response = DocumentData.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfully deleted data"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+	})
+	@DeleteMapping(value = "/{docId}")
+	public void deleteDocument(@PathVariable("docId") String docId){
+		documentDataService.deleteDocument(docId);
 	}
 
 }

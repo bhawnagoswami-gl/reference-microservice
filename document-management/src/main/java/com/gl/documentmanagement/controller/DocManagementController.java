@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,15 +31,13 @@ public class DocManagementController {
 		this.docManagementService = docManagementService;
 	}
 	
-	@ApiOperation(value = "get document data with a document name",response = Iterable.class)
+	@ApiOperation(value = "Get document data with a document name",response = Iterable.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Successfully retrieved data"),
-			@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-			@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
 	})
 	@RequestMapping("/{docName}")
-	public Document getdocument(@PathVariable("docName") String docName) {
+	public Document getDocument(@PathVariable("docName") String docName) {
 		logger.info("docname for searchc" + docName);
 		DocumentData documentData = null;
 		MetadataInfo metadataInfo = null;
@@ -47,5 +47,4 @@ public class DocManagementController {
 		document = new Document(documentData.getDocId(), documentData.getDocName(), documentData.getDocLocation(), metadataInfo.getDocType(), metadataInfo.getDocSize());
 		return document;
 	}
-
 }

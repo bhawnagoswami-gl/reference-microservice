@@ -13,30 +13,28 @@ import lombok.Setter;
 @Entity
 @Table(name = "DOCUMENTDATA")
 public class DocumentData {
-
+	
 	@Column(name = "docid")
+	@Id
 	@Getter
 	@Setter
 	private String docId;
 	
-	@Column(name = "docName")
+	@Column(name = "docname")
 	@Getter
 	@Setter
-	@Id
 	private String docName;
 	
-	@Column(name = "docLocation")
+	@Column(name = "doclocation")
 	@Getter
 	@Setter
 	private String docLocation;
 
-	public DocumentData() {
-	}
 
-	public DocumentData(String docId, String docName, String docLocation) {
-		this.docId = docId;
-		this.docName = docName;
-		this.docLocation = docLocation;
+	public static final DocumentData EMPTY_DOCUMENT = new DocumentData();
+
+	public boolean hasId() {
+		return this.docId.isEmpty();
 	}
 
 }

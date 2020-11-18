@@ -1,4 +1,4 @@
-package com.gl.metadatainfo.model;
+	package com.gl.metadatainfo.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,13 +28,14 @@ public class MetadataInfo {
 	@Setter
 	private String docSize;
 
+	public static final MetadataInfo EMPTY_METADATA = new MetadataInfo();
+
 	public MetadataInfo() {
 	}
-
-	public MetadataInfo(String docId, String docType, String docSize) {
-		this.docId = docId;
-		this.docType = docType;
-		this.docSize = docSize;
+	
+	public boolean hasId() {
+		return this.docId.isEmpty();
 	}
+
 	
 }
