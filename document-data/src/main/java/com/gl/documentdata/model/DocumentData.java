@@ -8,35 +8,33 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "DOCUMENTDATA")
+@NoArgsConstructor
+@ToString
+@Getter
+@Setter
 public class DocumentData {
 
 	@Column(name = "docid")
-	@Getter
-	@Setter
+	@Id
 	private String docId;
 	
-	@Column(name = "docName")
-	@Getter
-	@Setter
-	@Id
+	@Column(name = "docname")
 	private String docName;
 	
-	@Column(name = "docLocation")
-	@Getter
-	@Setter
+	@Column(name = "doclocation")
 	private String docLocation;
 
-	public DocumentData() {
-	}
 
-	public DocumentData(String docId, String docName, String docLocation) {
-		this.docId = docId;
-		this.docName = docName;
-		this.docLocation = docLocation;
+	public static final DocumentData EMPTY_DOCUMENT = new DocumentData();
+
+	public boolean hasId() {
+		return this.docId.isEmpty();
 	}
 
 }
