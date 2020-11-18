@@ -1,7 +1,12 @@
 package com.gl.documentdata.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 
+import com.gl.documentdata.controller.DocumentDataController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,29 +16,45 @@ import com.gl.documentdata.model.DocumentData;
 @Service
 public class DocumentDataService {
 
-	 @Autowired
+	private static final Logger logger = LoggerFactory.getLogger(DocumentDataService.class);
+
+
+	@Autowired
 	 DocumentDataDAO documentDataDAO;
 
-	  public DocumentData getDocument(String docName) {
-		  DocumentData document = documentDataDAO.getDocument(docName);
-	    return document;
+	  public DocumentData findDocument(String docId) {
+	    return
+				documentDataDAO
+						.findById(docId)
+						.orElse(DocumentData.EMPTY_DOCUMENT);
 	  }
 
 	  public List<DocumentData> getAllDocuments() {
-	    List<DocumentData> list = documentDataDAO.getAllDocs();
-	    return list;
+	    return
+				documentDataDAO
+						.findAll();
 	  }
 
 	  public void addDocument(DocumentData documentData) {
-		  documentDataDAO.addDocument(documentData);
+		  DocumentData data = documentDataDAO.save(documentData);
+		  logger.info("Document added/updated - {}", data);
 	  }
 
 	  public void updateDocument(DocumentData documentData) {
-		  documentDataDAO.updateDocument(documentData);
+		if (documentData.hasId()) {
+			addDocument(documentData);
+		} else {
+			throwDocumentNotExistException(documentData);
+		}
+	  }
+
+	  private void throwDocumentNotExistException(DocumentData documentData){
+	  	logger.warn("Document {} doesn't exist and so can't be updated");
+	  	throw new RuntimeException("Document " + documentData + " doesn't exist and so can't be updated");
 	  }
 
 	  public void deleteDocument(String docName) {
-		  documentDataDAO.deleteDocument(docName);
+		  documentDataDAO.deleteById(docName);
 	  }
 
 }
