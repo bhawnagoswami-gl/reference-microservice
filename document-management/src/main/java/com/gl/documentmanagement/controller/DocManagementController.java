@@ -36,13 +36,13 @@ public class DocManagementController {
 			@ApiResponse(code = 200, message = "Successfully retrieved data"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
 	})
-	@RequestMapping("/{docName}")
-	public Document getDocument(@PathVariable("docName") String docName) {
-		logger.info("docname for searchc" + docName);
+	@RequestMapping("/{docId}")
+	public Document getDocument(@PathVariable("docId") String docId) {
+		logger.info("docname for searchc" + docId);
 		DocumentData documentData = null;
 		MetadataInfo metadataInfo = null;
 		Document document = null;
-		documentData = docManagementService.getDocInfo(docName);
+		documentData = docManagementService.getDocInfo(docId);
 		metadataInfo = docManagementService.getMetaInfo(documentData.getDocId());
 		document = new Document(documentData.getDocId(), documentData.getDocName(), documentData.getDocLocation(), metadataInfo.getDocType(), metadataInfo.getDocSize());
 		return document;

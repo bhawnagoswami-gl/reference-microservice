@@ -30,10 +30,10 @@ public class DocManagementService {
 	public DocManagementService() {
 	}
 
-	public DocumentData getDocInfo(String docName)
+	public DocumentData getDocInfo(String docId)
 	{
-		logger.info("getting doc info for docName "+ docName + " url is " + docInfoUrl + "/docinfo/" + docName );
-		DocumentData documentData = restTemplate.getForObject(docInfoUrl + "/docinfo/" + docName, DocumentData.class);
+		logger.info("getting doc info for docId "+ docId + " url is " + docInfoUrl + "/docinfo/" + docId );
+		DocumentData documentData = restTemplate.getForObject(docInfoUrl + "/docinfo/" + docId, DocumentData.class);
 		logger.info("got documentDatausing document data service ");
 		return documentData;
 	}

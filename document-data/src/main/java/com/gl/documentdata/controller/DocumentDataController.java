@@ -49,7 +49,7 @@ public class DocumentDataController {
 
 
 	@ApiOperation(
-			value = "Get document data for all documents",
+			value = "Get document data for all documents",	
 			response = DocumentData.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Successfully retrieved data"),

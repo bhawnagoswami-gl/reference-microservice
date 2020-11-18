@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "MetadataInfo")
+@Table(name = "Metadatainfo")
 public class MetadataInfo {
 
 	@Column(name = "docid")
