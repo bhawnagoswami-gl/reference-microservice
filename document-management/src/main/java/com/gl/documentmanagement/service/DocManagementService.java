@@ -1,13 +1,18 @@
 package com.gl.documentmanagement.service;
 
+import java.net.URI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.gl.documentmanagement.model.Document;
 import com.gl.documentmanagement.model.DocumentData;
 import com.gl.documentmanagement.model.MetadataInfo;
 
@@ -46,4 +51,29 @@ public class DocManagementService {
 		return metadataInfo;
 	}
 	
+	public void addDocument(Document document) {
+		DocumentData documentData = new DocumentData();
+		MetadataInfo metadataInfo = new MetadataInfo();
+		documentData.setDocId(document.getDocId());
+		documentData.setDocName(document.getDocName());
+		documentData.setDocLocation(document.getDocLoc());
+		metadataInfo.setDocId(document.getDocId());
+		metadataInfo.setDocType(document.getDocType());
+		metadataInfo.setDocSize(document.getDocSize());
+		try {
+			HttpHeaders header = new HttpHeaders();
+			ResponseEntity<Integer> entity1 = restTemplate.postForEntity(
+					new URI(docInfoUrl + "/docinfo/"),
+					new HttpEntity<DocumentData>(documentData,header),
+					Integer.class);
+			logger.info("document info adding "+entity1);
+			ResponseEntity<Integer> entity3 = restTemplate.postForEntity(
+					new URI(metaInfoUrl + "/metainfo/"),
+					new HttpEntity<MetadataInfo>(metadataInfo,header),
+					Integer.class);
+			logger.info("metadata info adding "+entity3);
+		}catch (Exception e){
+			logger.error("Error in adding Doc",e);
+		}
+	}
 }

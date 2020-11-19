@@ -31,7 +31,7 @@ public class DocManagementController {
 		this.docManagementService = docManagementService;
 	}
 	
-	@ApiOperation(value = "Get document data with a document name",response = Iterable.class)
+	@ApiOperation(value = "Get document data with a document id",response = Iterable.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Successfully retrieved data"),
 			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
@@ -46,5 +46,16 @@ public class DocManagementController {
 		metadataInfo = docManagementService.getMetaInfo(documentData.getDocId());
 		document = new Document(documentData.getDocId(), documentData.getDocName(), documentData.getDocLocation(), metadataInfo.getDocType(), metadataInfo.getDocSize());
 		return document;
+	}
+	
+	@ApiOperation(value = "Add document data with a document id",response = Iterable.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Successfully added data"),
+			@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+	})
+	@PostMapping()
+	public void addDocument(@RequestBody Document document){
+	   logger.info("Adding document");
+	   docManagementService.addDocument(document);
 	}
 }

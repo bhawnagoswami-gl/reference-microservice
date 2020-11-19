@@ -8,6 +8,10 @@ public class Document {
 	private String docType;
 	private String docSize;
 	
+	public Document() {
+		
+	}
+	
 	public Document(String docId, String docName, String docLoc, String docType, String docSize) {
 		this.docId = docId;
 		this.docName = docName;
