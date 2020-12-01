@@ -9,10 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import com.gl.documentdata.dao.DocumentDataDAO;
 import com.gl.documentdata.model.DocumentData;
 
 @Service
+@XRayEnabled
 public class DocumentDataService {
 	private static final Logger logger = LoggerFactory.getLogger(DocumentDataService.class);
 
