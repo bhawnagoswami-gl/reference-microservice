@@ -12,12 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import com.gl.documentmanagement.model.Document;
 import com.gl.documentmanagement.model.DocumentData;
 import com.gl.documentmanagement.model.MetadataInfo;
 
 @Service
 @ConfigurationProperties(prefix="endpoint")
+@XRayEnabled
 public class DocManagementService {
 
 	private static final Logger logger = LoggerFactory.getLogger(DocManagementService.class);

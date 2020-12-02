@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import com.gl.metadatainfo.model.MetadataInfo;
 import com.gl.metadatainfo.service.MetadataService;
 
@@ -25,6 +26,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/metainfo")
+@XRayEnabled
 public class MetadataController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MetadataController.class);

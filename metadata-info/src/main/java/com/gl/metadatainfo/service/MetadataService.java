@@ -7,11 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import com.gl.metadatainfo.controller.MetadataController;
 import com.gl.metadatainfo.dao.MetadataDAO;
 import com.gl.metadatainfo.model.MetadataInfo;
 
 @Service
+@XRayEnabled
 public class MetadataService {
 
 	private static final Logger logger = LoggerFactory.getLogger(MetadataController.class);

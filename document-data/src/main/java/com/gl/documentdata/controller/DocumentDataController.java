@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.amazonaws.xray.spring.aop.XRayEnabled;
 import com.gl.documentdata.model.DocumentData;
 import com.gl.documentdata.service.DocumentDataService;
 
@@ -23,6 +24,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/docinfo")
+@XRayEnabled
 public class DocumentDataController {
 	private static final Logger logger = LoggerFactory.getLogger(DocumentDataController.class);
 
