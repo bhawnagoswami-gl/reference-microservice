@@ -9,6 +9,7 @@ LABEL maintainer="bhawna.goswami2@globallogic.com"
 
 # Make port 8080 available to the world outside this container
 EXPOSE 80
+ADD ${JAR_FILE} D:/Softwares/disco/disco-java-agent.jar
 
 # The application's jar file
 ARG JAR_FILE=target/document-data-0.0.1-SNAPSHOT.jar
@@ -17,4 +18,4 @@ ARG JAR_FILE=target/document-data-0.0.1-SNAPSHOT.jar
 ADD ${JAR_FILE} document-data-0.0.1-SNAPSHOT.jar
 
 # Run the jar file 
-ENTRYPOINT ["java","-jar","document-data-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","document-data-0.0.1-SNAPSHOT.jar","-javaagent:D:/Softwares/disco/disco-java-agent.jar=pluginPath=/D:/Softwares/disco/disco-plugins"]
