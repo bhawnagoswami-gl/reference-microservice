@@ -18,42 +18,48 @@ import com.gl.documentdata.model.DocumentData;
 public class DocumentDataService {
 	private static final Logger logger = LoggerFactory.getLogger(DocumentDataService.class);
 
+
+	private DocumentDataDAO documentDataDAO;
+
 	@Autowired
-	 DocumentDataDAO documentDataDAO;
+	public DocumentDataService(DocumentDataDAO documentDataDAO)
+	{
+		this.documentDataDAO = documentDataDAO;
+	}
 
-	  public DocumentData findDocument(String docId) {
-	    return
+	public DocumentData findDocument(String docId) {
+		return
 				documentDataDAO
-						.findById(docId)
-						.orElse(DocumentData.EMPTY_DOCUMENT);
-	  }
+				.findById(docId)
+				.orElse(DocumentData.EMPTY_DOCUMENT);
+	}
 
-	  public List<DocumentData> getAllDocuments() {
-	    return
+	public List<DocumentData> getAllDocuments() {
+		return
 				documentDataDAO
-						.findAll();
-	  }
+				.findAll();
+	}
 
-	  public void addDocument(DocumentData documentData) {
-		  DocumentData data = documentDataDAO.save(documentData);
-		  logger.info("Document added/updated - {}", data);
-	  }
+	public void addDocument(DocumentData documentData) {
+		DocumentData data = documentDataDAO.save(documentData);
+		logger.info("Document added/updated - {}", data);
+	}
 
-	  public void updateDocument(DocumentData documentData) {
+	public void updateDocument(DocumentData documentData) {
 		if (documentData.hasId()) {
 			addDocument(documentData);
 		} else {
 			throwDocumentNotExistException(documentData);
 		}
-	  }
+	}
 
-	  private void throwDocumentNotExistException(DocumentData documentData){
-	  	logger.warn("Document {} doesn't exist and so can't be updated");
-	  	throw new RuntimeException("Document " + documentData + " doesn't exist and so can't be updated");
-	  }
+	private void throwDocumentNotExistException(DocumentData documentData){
+		logger.warn("Document {} doesn't exist and so can't be updated");
+		throw new RuntimeException("Document " + documentData + " doesn't exist and so can't be updated");
+	}
 
-	  public void deleteDocument(String docName) {
-		  documentDataDAO.deleteById(docName);
-	  }
+	public void deleteDocument(String docName) {
+		documentDataDAO.deleteById(docName);
+	}
 
 }

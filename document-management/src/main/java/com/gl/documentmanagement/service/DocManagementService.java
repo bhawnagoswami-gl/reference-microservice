@@ -1,6 +1,9 @@
 package com.gl.documentmanagement.service;
 
 import java.net.URI;
+
+import com.amazonaws.xray.AWSXRay;
+import com.amazonaws.xray.entities.Subsegment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +43,15 @@ public class DocManagementService {
 	public DocumentData getDocInfo(String docId)
 	{
 		logger.info("getting doc info for docId "+ docId + " url is " + docInfoUrl + "/docinfo/" + docId );
-		DocumentData documentData = restTemplate.getForObject(docInfoUrl + "/docinfo/" + docId, DocumentData.class);
+		Subsegment subsegment = AWSXRay.beginSubsegment("Get Doc Data");
+		DocumentData documentData = null;
+		try {
+			documentData = restTemplate.getForObject(docInfoUrl + "/docinfo/" + docId, DocumentData.class);
+		}
+		catch (Exception e) {
+			subsegment.addException(e);
+		}
+		AWSXRay.endSubsegment();
 		logger.info("got documentDatausing document data service ");
 		return documentData;
 	}
@@ -48,11 +59,19 @@ public class DocManagementService {
 	public MetadataInfo getMetaInfo(String docId)
 	{
 		logger.info("getting meta info for docId "+ docId + " url is " + metaInfoUrl + "/metainfo/" + docId );
-		MetadataInfo metadataInfo = restTemplate.getForObject(metaInfoUrl + "/metainfo/"  + docId, MetadataInfo.class);
+		Subsegment subsegment = AWSXRay.beginSubsegment("Get Meta Data");
+		MetadataInfo metadataInfo = null;
+		try {
+			metadataInfo = restTemplate.getForObject(metaInfoUrl + "/metainfo/"  + docId, MetadataInfo.class);
+		}
+		catch (Exception e) {
+			subsegment.addException(e);
+		}
+		AWSXRay.endSubsegment();
 		logger.info("got metadata using metadata info service ");
 		return metadataInfo;
 	}
-	
+
 	public void addDocument(Document document) {
 		DocumentData documentData = new DocumentData();
 		MetadataInfo metadataInfo = new MetadataInfo();
@@ -62,20 +81,26 @@ public class DocManagementService {
 		metadataInfo.setDocId(document.getDocId());
 		metadataInfo.setDocType(document.getDocType());
 		metadataInfo.setDocSize(document.getDocSize());
+
 		try {
 			HttpHeaders header = new HttpHeaders();
+			Subsegment subsegment = AWSXRay.beginSubsegment("Post Doc Data");
 			ResponseEntity<Integer> entity1 = restTemplate.postForEntity(
 					new URI(docInfoUrl + "/docinfo/"),
 					new HttpEntity<DocumentData>(documentData,header),
 					Integer.class);
+			AWSXRay.endSubsegment();
 			logger.info("document info adding "+entity1);
+			Subsegment subsegment1 = AWSXRay.beginSubsegment("Post Meta Data");
 			ResponseEntity<Integer> entity3 = restTemplate.postForEntity(
 					new URI(metaInfoUrl + "/metainfo/"),
 					new HttpEntity<MetadataInfo>(metadataInfo,header),
 					Integer.class);
+			AWSXRay.endSubsegment();
 			logger.info("metadata info adding "+entity3);
 		}catch (Exception e){
 			logger.error("Error in adding Doc",e);
 		}
+
 	}
 }

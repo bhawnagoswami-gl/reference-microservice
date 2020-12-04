@@ -25,4 +25,5 @@ ADD ${JAR_FILE} document-management-0.0.1-SNAPSHOT.jar
 
 # Run the jar file 
 #ENTRYPOINT ["java","-jar","document-management-0.0.1-SNAPSHOT.jar","-javaagent:D:/Softwares/disco/disco-java-agent.jar=pluginPath=/D:/Softwares/disco/disco-plugins"]
-CMD ["java","-javaagent:./disco-java-agent.jar=pluginPath=./disco-plugins","-jar","document-management-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-javaagent:./disco-java-agent.jar=pluginPath=./disco-plugins"]
+ENTRYPOINT ["java","-jar","document-management-0.0.1-SNAPSHOT.jar"]
